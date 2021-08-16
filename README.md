@@ -26,7 +26,7 @@ The value of _n_ will eventually end in a 4,2,1 infinite cycle.**
 The Collatz Conjecture is simple to understand, but has yet to be proven or disproven, but it's likely believed to be true. 
 
 ***
-## Code
+## Code Overview
 
 Aside from the `Main()` method, there 3 other methods in this program.
 
@@ -36,8 +36,33 @@ Aside from the `Main()` method, there 3 other methods in this program.
 
 _**Note:**_ In order to exit the program. The letter "e" must be pressed and entered or just close the console window.
 
-Here is the code for the method `ComputeCollatzConjectureSequence(long number)`
+### **How the code works. (Details)** 
 
+**1**. `Start()`
+- Prompts the user for input using `Console.ReadLine()`. 
+- Calls the method `ValidateInput()` to validate the input. 
+
+**2.** `ValidateInput()`
+- Validates the string input, and replaces and commas with an empty string (e.g. 1,000,123 becomes 1000123).
+- The method then tries to parse the input into a _long_ number. 
+ 
+```
+if (long.TryParse(input, out long number) && number > 0)
+```
+- There are 2 conditions in the `if` statement. The second condition is preceded with an "AND" operator (`&&`), and thus, if the first condition fails making it `false`, then the second condition will not execute. 
+- In other words, the second condition (`&& number > 0`) will not be evaluated so it's safe from an exception being thrown. 
+- See the term short-circuiting, or this stackoverflow article: 
+https://stackoverflow.com/questions/11358576/will-an-if-statement-stop-evaluating-if-it-fails-the-first-condition%20%20%20%20%20%20%20%20%20%20%20%20%20
+
+- If the parsing is successful, then the method `ComputeCollatzConjectureSequence()` is called to compute the Collatz steps, and then prompts the user again.
+- If the parsing fails, then it check if the letter "e" was entered (ignoring upper or lowercase) to see if the program should exit, otherwise it display an error message on the console line, and prompt the user again. 
+
+**3.** `ComputeCollatzConjectureSequence()`
+
+- This is the method that does the work in computing the Collatz steps.
+- Inside the `while` loop a ternary conditional operator is used to apply the Collatz logic.
+- The ternary operator `?:` is a shorthand of an `if-else` statement. For more information see: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator
+- The code is really simple. It runs in a while loop checking if a number is odd or even, prints out the result to the console line, and increments the "stepCounter". The cycle repeats until the number reaches 1.   
 
 ```
 long stepCounter = 1;
@@ -50,8 +75,6 @@ while(number > 1)
     stepCounter++;
 }
 ```
-The code is really simple. It runs in a while loop checking whether or not the the number is even or odd, and applying the rules of Collatz Conjecture to get the next number. The cycle repeats until the number is equals to 1. 
-
 ### NOTE:
 The largest number the _long_ datatype supports is 9,223,372,036,854,775,807. If the number exceeds this, then it will overflow to a negative value and the computation will stop. The largest number this program can handle is 3,074,457,345,618,258,602. 
 
